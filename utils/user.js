@@ -131,4 +131,4 @@ function userleft(id){
 }
 module.exports={ user,
     playarea,playerchoice,winner,userleft};
-    //choice pre push..wait for other to choss
+   

@@ -32,8 +32,8 @@ io.on('connection',socket=>{
         }
 
        /* console.log(userf);
-        console.log(userf);
-        console.log(playr);*/
+        console.log(userf);*/
+        console.log(playr);
     });
     socket.on('choice',({room,value})=>{
         const pchoice=playerchoice(room,value,socket.id);

@@ -14,7 +14,7 @@
      console.log(message);
  });
  socket.on('userleft',message=>{
-     console.log('u left');
+     console.log(message);
  });
  function choosen(value){
      console.log(value);
