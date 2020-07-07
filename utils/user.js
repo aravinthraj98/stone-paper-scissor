@@ -1,0 +1,96 @@
+users=[];
+player=[];
+choicearr=[];
+
+function user(username,room,id){
+    users.push({username,
+        room,
+        id});
+   /* return {
+        username,
+        room,
+        id
+    }*/
+    let usercheck=player.findIndex(user=> user.room===room);
+    if(usercheck !==-1){
+        const insert=player.find(user=> user.room === room);
+
+      
+        //const insert1={'player1':insert['player1'],'player2':username,'p1id':insert['p1id'],'p2id':id,'room':room};
+        insert['p2id']=id;
+        insert['player2']=username;
+        player.push(insert);
+        
+    }
+    else{
+    
+    let players={'player1':username,'player2':'','p1id':id,'p2id':'','room':room};
+    player.push(players);
+}
+    
+    return users.find(user=> user.id===id);
+}
+function playarea(room){
+  return player.find(user=> user.room===room)
+}
+function playerchoice(room,choice,id){
+    let checkchoice=choicearr.findIndex(user => user.room===room);
+    if(checkchoice === -1){
+        const choices={'choice1':'','choice2':'','room':room,'both':'no'};
+        choicearr.push(choices);
+    }
+    const findp=player.find(user => user.room===room);
+    const choices=choicearr.find(user=>user.room===room);
+    if(findp['p1id']===id){
+       
+      choices['choice1']=choice;
+      if(choices['choice2'].length>=2){
+          choices['both']='yes';
+          return choices;
+      }
+    }
+    else{
+        choices['choice2']=choice;
+        if(choices['choice1'].length>=2){
+            choices['both']='yes';
+        return choices;}
+    }
+    return choices;
+}
+function winner(choice1,choice2,room){
+    const insert=player.find(user=> user.room === room);
+    if(choice1===choice2){
+        return {'winner':'both','room':room};
+    }
+    else if((choice1=='stone' && choice2=='paper' || choice1=='paper' && choice2=='stone')||(choice1=='scissor' && choice2=='paper' || choice1=='paper' && choice2=='scissor' ) ){
+        let element= 'stone';
+        let element1='scissor';
+        if(choice1==element){
+            return {'winner':insert['player2'],'room':room};
+        }
+        
+        if(choice1==element1){
+           return  {'winner':insert['player1'],'room':room}
+       }
+       else if(choice1='paper' && choice2=='scissor'){
+        return {'winner':insert['player2'],'room':room};
+
+       }
+        else{
+            return {'winner':insert['player1'],'room':room};
+                    }
+    }
+    else if(choice1=='stone' && choice2 == 'scissor' || choice1=='scissor' && choice2 == 'stone'){
+        let element= 'stone';
+        if(choice1==element ){
+            return  {'winner':insert['player1'],'room':room}
+
+        }
+        else{
+            return {'winner':insert['player2'],'room':room};
+
+                    }
+    }
+}
+module.exports={ user,
+    playarea,playerchoice,winner};
