@@ -14,17 +14,24 @@ function user(username,room,id){
     let usercheck=player.findIndex(user=> user.room===room);
     if(usercheck !==-1){
         const insert=player.find(user=> user.room === room);
+        if(insert['no']!==2){
+            if(insert['player1']==username){
+                username=username+'2';
+            }
 
       
         //const insert1={'player1':insert['player1'],'player2':username,'p1id':insert['p1id'],'p2id':id,'room':room};
         insert['p2id']=id;
         insert['player2']=username;
-        player.push(insert);
+        insert['no']=2;
+
+        //player.push(insert);
+    }
         
     }
     else{
     
-    let players={'player1':username,'player2':'','p1id':id,'p2id':'','room':room};
+    let players={'player1':username,'player2':'','p1id':id,'p2id':'','room':room,'no':1};
     player.push(players);
 }
     
@@ -59,6 +66,7 @@ function playerchoice(room,choice,id){
 }
 function winner(choice1,choice2,room){
     const insert=player.find(user=> user.room === room);
+    choicearr.splice(user=>user.room===room);
     if(choice1===choice2){
         return {'winner':'both','room':room};
     }
@@ -92,5 +100,35 @@ function winner(choice1,choice2,room){
                     }
     }
 }
+function userleft(id){
+    const user=users.findIndex(user => user.id===id);
+    if(user !==-1){
+        const userf=users.splice(user,1);
+      
+    
+   
+    const playera=player.find(user => user.room ===userf[0].room);
+ 
+    if(playera['p1id']===id){
+       const leftname2= playera["player2"];
+        playera["player1"]= playera["player2"];
+        playera["p1id"]=playera["p2id"];
+        playera["player2"]='';
+        playera["p2id"]='';
+        playera["no"]=1;
+        
+        if(playera['player1'].length===0){
+            let index=player.find(user => user.room ===userf[0].room);
+            const remove= player.splice(index,1);
+            return  remove;
+        }
+        
+       
+        return leftname2;
+    }
+    return playera["player2"];
+}
+}
 module.exports={ user,
-    playarea,playerchoice,winner};
+    playarea,playerchoice,winner,userleft};
+    //choice pre push..wait for other to choss
