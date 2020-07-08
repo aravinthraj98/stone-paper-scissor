@@ -31,14 +31,20 @@ socket.on('opp-join',message=>{
 
  });
  socket.on('result',message=>{
-     document.getElementById('opponent').innerHTML=`opponent has choosen${message.ochoose}`;
      var wins='opponent';
  if(message.winner===username){
+   var oppchoice=message.lchoose;
    var wins='you';
  }
  else if(message.winner==='both'){
     wins='both'
+    var oppchoice=message.wchoose;
  }
+ else{
+     var oppchoice=message.wchoose;
+ }
+ document.getElementById('opponent').innerHTML=`opponent has choosen ${oppchoice}`;
+
  document.getElementById('restart').style.display='';
  document.getElementById('result').innerHTML=`${wins} won the game`;
  });

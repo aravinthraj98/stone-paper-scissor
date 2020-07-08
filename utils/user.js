@@ -68,34 +68,34 @@ function winner(choice1,choice2,room){
     const insert=player.find(user=> user.room === room);
     choicearr.splice(user=>user.room===room);
     if(choice1===choice2){
-        return {'winner':'both','room':room,'ochoice':choice1};
+        return {'winner':'both','room':room,'wchoice':choice1,'lchoice':choice2};
     }
     else if((choice1=='stone' && choice2=='paper' || choice1=='paper' && choice2=='stone')||(choice1=='scissor' && choice2=='paper' || choice1=='paper' && choice2=='scissor' ) ){
         let element= 'stone';
         let element1='scissor';
         if(choice1==element){
-            return {'winner':insert['player2'],'room':room,'ochoice':choice1};
+            return {'winner':insert['player2'],'room':room,'lchoice':choice1,'wchoice':choice2};
         }
         
         if(choice1==element1){
-           return  {'winner':insert['player1'],'room':room,'ochoice':choice2}
+           return  {'winner':insert['player1'],'room':room,'lchoice':choice2,'wchoice':choice1}
        }
-       else if(choice1='paper' && choice2=='scissor'){
-        return {'winner':insert['player2'],'room':room,'ochoice':choice1};
+       else if(choice1=='paper' && choice2=='scissor'){
+        return {'winner':insert['player2'],'room':room,'lchoice':choice1,'wchoice':choice2};
 
        }
         else{
-            return {'winner':insert['player1'],'room':room,'ochoice':choice2};
+            return {'winner':insert['player1'],'room':room,'lchoice':choice2,'wchoice':choice1};
                     }
     }
     else if(choice1=='stone' && choice2 == 'scissor' || choice1=='scissor' && choice2 == 'stone'){
         let element= 'stone';
         if(choice1==element ){
-            return  {'winner':insert['player1'],'room':room,'ochoice':choice2}
+            return  {'winner':insert['player1'],'room':room,'lchoice':choice2,'wchoice':choice1}
 
         }
         else{
-            return {'winner':insert['player2'],'room':room,'ochoice':choice1};
+            return {'winner':insert['player2'],'room':room,'lchoice':choice1,'wchoice':choice2};
 
                     }
     }
