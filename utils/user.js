@@ -66,7 +66,11 @@ function playerchoice(room,choice,id){
 }
 function winner(choice1,choice2,room){
     const insert=player.find(user=> user.room === room);
-    choicearr.splice(user=>user.room===room);
+
+    const choiceempty=choicearr.find(user=>user.room===room);
+    choiceempty['choice1']='';
+    choiceempty['choice2']='';
+    choiceempty['both']='no';
     if(choice1===choice2){
         return {'winner':'both','room':room,'wchoice':choice1,'lchoice':choice2};
     }

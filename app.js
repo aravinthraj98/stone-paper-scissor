@@ -60,7 +60,7 @@ io.on('connection',socket=>{
         if(pchoice.both=='yes'){
             const win=winner(pchoice.choice1,pchoice.choice2,room)
             const winning={'player1':pchoice.choice1,'player2':pchoice.choice2,'winner':win.winner,'lchoose':win.lchoice,'wchoose':win.wchoice};
-            io.to(win.room).emit('result',winning)
+            io.to(win.room).emit('result',winning);
             console.log(win);
             console.log(winning);
         }
