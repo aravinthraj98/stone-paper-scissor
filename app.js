@@ -7,9 +7,25 @@ const socketio=require('socket.io');
 app.use(express.static(path.join(__dirname,'public')))
 const io=socketio(server);
 const {user,playarea,playerchoice,winner,userleft}=require('./utils/user')
+const random=[];
 io.on('connection',socket=>{
+    socket.on('randomroom',message=>{
+       const message1='A'+message;
+       random.push(message1);
+       if(random[0] !== message1){
+           socket.emit('roomalot',random[0]);
+           random.splice(0,1);
+           
+       }
+       else{
+        socket.emit('roomalot',message1);
+ 
+       }
+
+    });
   
-    socket.emit('message','hiii');
+    //socket.emit('message','welcome to the game room');
+
     socket.on('joinroom',({username,room})=>{
         const userf=user(username,room,socket.id);
         const playr=playarea(room);
@@ -22,9 +38,10 @@ io.on('connection',socket=>{
         else{
             socket.emit('username',playr.player2); 
         }
-        socket.broadcast.to(room).emit('message',`${username} has joined the game`);
+        socket.broadcast.to(room).emit('opp-join',`${username} has joined the game`);
     }
         else{
+          
             socket.emit('roomfull','sry the room is currently full');
         }
         if(playr.player2.length >=3){
@@ -33,23 +50,26 @@ io.on('connection',socket=>{
 
        /* console.log(userf);
         console.log(userf);*/
-        console.log(playr);
+       // console.log(playr);
     });
     socket.on('choice',({room,value})=>{
         const pchoice=playerchoice(room,value,socket.id);
         console.log(pchoice);
+        socket.broadcast.to(room).emit('ochoice',value);
         if(pchoice.both=='yes'){
             const win=winner(pchoice.choice1,pchoice.choice2,room)
-            const winning={'player1':pchoice.choice1,'player2':pchoice.choice2,'winner':win.winner};
+            const winning={'player1':pchoice.choice1,'player2':pchoice.choice2,'winner':win.winner,'ochoose':win.ochoice};
             io.to(win.room).emit('result',winning)
             console.log(win);
+            console.log(winning);
         }
        
     })
     socket.on('disconnect',() =>{
     const left=userleft(socket.id);
     console.log(left);
-       io.emit('userleft',`a user ${left} left`);
+       io.to(left.room).emit('userleft',`opponent has left the game`);
+
 
        
     });
@@ -58,3 +78,4 @@ io.on('connection',socket=>{
 server.listen(8080,()=>{
     console.log('jjj');
 });
+//random by array splice and push...
