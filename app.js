@@ -3,6 +3,7 @@ const app=express();
 const http=require('http')
 const server=http.createServer(app);
 const path=require('path');
+const PORT=process.env.PORT || 8080
 const socketio=require('socket.io');
 app.use(express.static(path.join(__dirname,'public')))
 const io=socketio(server);
@@ -75,7 +76,7 @@ io.on('connection',socket=>{
     });
 });
 
-server.listen(8080,()=>{
+server.listen(PORT,()=>{
     console.log('jjj');
 });
 //random by array splice and push...
